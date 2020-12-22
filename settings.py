@@ -8,10 +8,10 @@ class Settings:
         #screen Settings
         self.screen_width = 960
         self.screen_height = 720
-        self.bg_color = (230, 230, 230) # warna background
+        self.bg_color = "#00084D" # warna background
 
         # ship settings
-        self.ship_speed = 1.5
+        self.ship_speed = 1
         self.ship_limit = 3
 
         # bullet settings

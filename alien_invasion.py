@@ -38,7 +38,7 @@ class AlienInvasion:
         self.ship = Ship(self)
         self.bullet = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
-        self.play_button = Button(self, "PLAY")
+        self.play_button = Button(self, "SKUY MABAR")
 
         self._create_fleet()
 
