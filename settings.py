@@ -1,3 +1,5 @@
+import pygame
+
 class Settings:
     '''A class to store all settings for Alien Invasion'''
 
@@ -6,9 +8,14 @@ class Settings:
         initialize the game's setting
         '''
         #screen Settings
-        self.screen_width = 960
-        self.screen_height = 720
+        self.screen_width = 1280
+        self.screen_height = 680
         self.bg_color = "#00084D" # warna background
+
+        # Background setting
+        self.background_image = pygame.image.load("images/bg.bmp")
+        self.background_image = pygame.transform.scale(self.background_image, (self.screen_width, self.screen_height))
+        self.rect = self.background_image.get_rect()
 
         # ship settings
         self.ship_speed = 1
@@ -18,7 +25,7 @@ class Settings:
         self.bullet_speed = 1.0
         self.bullet_width = 3
         self.bullet_height = 15
-        self.bullet_color = (60, 60, 60)
+        self.bullet_color = "#eae7af"
         self.bullet_allowed = 3
 
         # Alien settings
@@ -37,8 +44,8 @@ class Settings:
 
     
     def initialize_dynamic_settings(self):
-        self.ship_speed = 1.5
-        self.bullet_speed = 3.0
+        self.ship_speed = 1.0
+        self.bullet_speed = 1.0
         self.alien_speed = 1.0
 
         self.fleet_direction = 1 # Nentuin gerak kanan(1) atau kiri(-1) duluan

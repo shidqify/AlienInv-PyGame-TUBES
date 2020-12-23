@@ -1,6 +1,7 @@
 import sys
 from time import sleep
 import pygame
+from pygame import mixer
 from settings import Settings
 from game_stats import GameStats
 from scoreboard import Scoreboard
@@ -8,6 +9,7 @@ from button import Button
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+
 
 class AlienInvasion:
     '''
@@ -23,6 +25,10 @@ class AlienInvasion:
         self.screen = pygame.display.set_mode(
             (self.settings.screen_width, self.settings.screen_height)
         )
+
+        # Icon
+        ico = pygame.image.load("images/nintendo.ico")
+        pygame.display.set_icon(ico)
         
         #Fullscreen
         # self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
@@ -38,8 +44,8 @@ class AlienInvasion:
         self.ship = Ship(self)
         self.bullet = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
-        self.play_button = Button(self, "SKUY MABAR")
-
+        self.play_button = Button(self, "START")
+        
         self._create_fleet()
 
 
@@ -56,7 +62,7 @@ class AlienInvasion:
                 self.bullet.update()
                 self._update_bullets()
                 self._update_aliens()
-            
+                
             self._update_screen()
             
 
@@ -84,6 +90,11 @@ class AlienInvasion:
         if button_clicked and not self.stats.game_active:
             # reset the game
             self.settings.initialize_dynamic_settings()
+
+            # Music plays
+            mixer.music.load("images/ff7.wav")
+            mixer.music.play(-1)
+            mixer.music.set_volume(0.5)
 
             # Reset the game statistic
             self.stats.reset_stats()
@@ -116,6 +127,9 @@ class AlienInvasion:
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
+            shoot= mixer.Sound("images/shootbull.wav")
+            shoot.set_volume(0.1)
+            shoot.play()
 
 
     def _check_keyup_events(self, event):
@@ -165,6 +179,9 @@ class AlienInvasion:
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
             self.sb.check_high_score()
+            hit= mixer.Sound("images/hitalien.wav")
+            hit.set_volume(0.2)
+            hit.play()
 
         if not self.aliens:
             # Destroy existing bullets and create new fleet
@@ -174,6 +191,9 @@ class AlienInvasion:
 
             # Increase level
             self.stats.level += 1
+            levelup = mixer.Sound("images/levelup.wav")
+            levelup.set_volume(0.2)
+            levelup.play()
             self.sb.prep_level()
 
 
@@ -221,11 +241,21 @@ class AlienInvasion:
             self._create_fleet()
             self.ship.center_ship()
 
+            # sound when lost
+            loselife = mixer.Sound("images/loselife.wav")
+            loselife.set_volume(0.2)
+            loselife.play()
+
             #pause
             sleep(0.5)
         else:
             self.stats.game_active = False
             pygame.mouse.set_visible(True)
+            lost = mixer.Sound("images/lost.wav")
+            lost.set_volume(1)
+            lost.play()
+            mixer.music.stop()
+
 
 
     def _create_fleet(self):
@@ -284,7 +314,7 @@ class AlienInvasion:
 
     def _update_screen(self):
         # Update images on the screen and flip to the new screen
-        self.screen.fill(self.settings.bg_color)
+        self.screen.blit(self.settings.background_image, (self.settings.rect))
         self.ship.blitme()
         for bullet in self.bullet.sprites():
             bullet.draw_bullet()
@@ -304,5 +334,5 @@ if __name__ == '__main__':
     # make a game instance, and run the game.
     ai = AlienInvasion()
     ai.run_game()
-
+  
 
