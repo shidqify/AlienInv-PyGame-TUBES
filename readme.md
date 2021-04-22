@@ -1,3 +1,4 @@
+# Detail Tugas
 CLO 4: Mampu mendesain, menulis, dan melakukan testing dalam rangka membangun
 projek sederhana menggunakan Python
 
@@ -44,3 +45,8 @@ Penilaian:
     60%: Program Jalan (40%) dan ada screenshot (20%)
     20%: Menjawab pertanyaan
     20%: Melakukan 5 Perubahan dan ada screenshot dan penjelasan
+
+# Hasil
+
+![](./AlienInvStart.png)
+![](./AlienInvPlay.png)
